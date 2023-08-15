@@ -10,7 +10,7 @@ namespace BIP39Wallet.Tests
         [Fact]
         public void CreateWallet_test()
         {
-            var accountInfo = BIP39Wallet.Wallet.CreateWallet(128, Language.English, "");
+            var accountInfo = Wallet.CreateWallet(128, Language.English, "");
 
             Console.WriteLine($"mnemonic: {accountInfo.Mnemonic}");
             Console.WriteLine($"privateKey: {accountInfo.PrivateKey}");
@@ -24,7 +24,7 @@ namespace BIP39Wallet.Tests
         {
             // Arrange
             var mnemonic = "put draft unhappy diary arctic sponsor alien awesome adjust bubble maid brave";
-            var accountInfo = BIP39Wallet.Wallet.GetWalletByMnemonic(mnemonic);
+            var accountInfo = Wallet.GetWalletByMnemonic(mnemonic);
             Assert.NotNull(accountInfo);
             Assert.Equal("f0c3bf2cfc4f50405afb2f1236d653cf0581f4caedf4f1e0b49480c840659ba9", accountInfo.PrivateKey);
             Assert.Equal("04c0f6abf0e3122f4a49646d67bacf85c80ad726ca781ccba572033a31162f22e55a4a106760cbf1306f26c25aea1e4bb71ee66cb3c5104245d6040cce64546cc7", accountInfo.PublicKey);
@@ -70,7 +70,7 @@ namespace BIP39Wallet.Tests
 
 
             // Arrange
-            var result = BIP39Wallet.Wallet.Sign(StringToByteArray(PRIVATE_KEY), Encoding.UTF8.GetBytes(HASH));
+            var result = Wallet.Sign(StringToByteArray(PRIVATE_KEY), Encoding.UTF8.GetBytes(HASH));
 
             // Assert
             Assert.Equal(SIGNED.ToLower(), result.ToHexString());

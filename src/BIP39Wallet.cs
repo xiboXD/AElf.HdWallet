@@ -5,9 +5,7 @@ using System.Security.Cryptography;
 using System;
 
 
-namespace BIP39Wallet;
-
-public class BIP39Wallet
+namespace BIP39Wallet
 {
     public class Wallet
     {
