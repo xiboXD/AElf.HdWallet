@@ -3,10 +3,12 @@ using System.Text;
 using AElf.Types;
 using System.Security.Cryptography;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 
 namespace BIP39Wallet
 {
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class Wallet
     {
         public class BlockchainWallet
@@ -24,7 +26,7 @@ namespace BIP39Wallet
                 PublicKey = publicKey;
             }
         }
-        public static string ConvertMnemonicToSeedHex(Mnemonic mnemonic, string password)
+        public virtual string ConvertMnemonicToSeedHex(Mnemonic mnemonic, string password)
         {
             var mnemonicBytes = Encoding.UTF8.GetBytes(mnemonic.ToString().Normalize(NormalizationForm.FormKD));
             var saltSuffix = string.Empty;
@@ -45,11 +47,11 @@ namespace BIP39Wallet
             return hex;
         }
 
-        public static BlockchainWallet CreateWallet(int strength, Language language, string password)
+        public virtual BlockchainWallet CreateWallet(int strength, Language language, string password)
         {
             Mnemonic mnemonic = new Mnemonic(Wordlist.English, WordCount.Twelve);
 
-            var seed = Wallet.ConvertMnemonicToSeedHex(mnemonic, "");
+            var seed = ConvertMnemonicToSeedHex(mnemonic, "");
             var masterKeyPath = new KeyPath("m/44'/1616'");
             var masterWallet = new ExtKey(seed).Derive(masterKeyPath);
             var wallet = masterWallet.Derive(new KeyPath("0'/0")).Derive(0);
@@ -62,7 +64,7 @@ namespace BIP39Wallet
             return new BlockchainWallet(address, privateKey.ToHex(), mnemonic.ToString(), publicKey.ToString());
         }
 
-        public static BlockchainWallet GetWalletByMnemonic(string mnemonic, string password = "")
+        public virtual BlockchainWallet GetWalletByMnemonic(string mnemonic, string password = "")
         {
             Mnemonic mnemonicValue = new Mnemonic(mnemonic, Wordlist.English);
             var seedHex = ConvertMnemonicToSeedHex(mnemonicValue, password);
@@ -91,7 +93,7 @@ namespace BIP39Wallet
             return byteArray;
         }
 
-        public static BlockchainWallet GetWalletByPrivateKey(string privateKey)
+        public virtual BlockchainWallet GetWalletByPrivateKey(string privateKey)
         {
             var keybyte = StringToByteArray(privateKey);
             Array.Resize(ref keybyte, 32);
@@ -100,7 +102,7 @@ namespace BIP39Wallet
             var address =  Address.FromPublicKey(publicKey.ToBytes()).ToString().Trim('\"');
             return new BlockchainWallet(address, privateKey, null!, publicKey.ToHex());
         }
-        public static byte[] Sign(byte[] privateKey, byte[] hash)
+        public virtual byte[] Sign(byte[] privateKey, byte[] hash)
         {
             var hash32 = new uint256(hash);
             Array.Resize(ref privateKey, 32);
