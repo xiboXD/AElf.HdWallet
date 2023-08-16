@@ -49,15 +49,15 @@ namespace BIP39Wallet
 
         public virtual BlockchainWallet CreateWallet(int strength, Language language, string password)
         {
-            Mnemonic mnemonic = new Mnemonic(Wordlist.English, WordCount.Twelve);
+            var mnemonic = new Mnemonic(Wordlist.English, WordCount.Twelve);
 
             var seed = ConvertMnemonicToSeedHex(mnemonic, "");
             var masterKeyPath = new KeyPath("m/44'/1616'");
             var masterWallet = new ExtKey(seed).Derive(masterKeyPath);
             var wallet = masterWallet.Derive(new KeyPath("0'/0")).Derive(0);
-            Key privateKey = wallet.PrivateKey;
+            var privateKey = wallet.PrivateKey;
             var newKey = new Key(privateKey.ToBytes(), -1, false);
-            PubKey publicKey = newKey.PubKey;
+            var publicKey = newKey.PubKey;
 
             // Act
             var address = Address.FromPublicKey(publicKey.ToBytes()).ToString().Trim('\"');
@@ -66,14 +66,14 @@ namespace BIP39Wallet
 
         public virtual BlockchainWallet GetWalletByMnemonic(string mnemonic, string password = "")
         {
-            Mnemonic mnemonicValue = new Mnemonic(mnemonic, Wordlist.English);
+            var mnemonicValue = new Mnemonic(mnemonic, Wordlist.English);
             var seedHex = ConvertMnemonicToSeedHex(mnemonicValue, password);
             var masterKeyPath = new KeyPath("m/44'/1616'");
             var masterWallet = new ExtKey(seedHex).Derive(masterKeyPath);
             var wallet = masterWallet.Derive(new KeyPath("0'/0")).Derive(0);
-            Key privateKey = wallet.PrivateKey;
+            var privateKey = wallet.PrivateKey;
             var newKey = new Key(privateKey.ToBytes(), -1, false);
-            PubKey publicKey = newKey.PubKey;
+            var publicKey = newKey.PubKey;
 
             // Act
             var address = Address.FromPublicKey(publicKey.ToBytes()).ToString().Trim('\"');
