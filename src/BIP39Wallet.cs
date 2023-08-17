@@ -1,41 +1,21 @@
 using NBitcoin;
-using System.Text;
 using AElf.Types;
-using System.Security.Cryptography;
 using System;
 
 namespace BIP39Wallet
 {
     public class Wallet
     {
-        private static string ConvertMnemonicToSeedHex(Mnemonic mnemonic, string password)
-        {
-            var mnemonicBytes = Encoding.UTF8.GetBytes(mnemonic.ToString().Normalize(NormalizationForm.FormKD));
-            var saltSuffix = string.Empty;
-            if (!string.IsNullOrEmpty(password))
-            {
-                saltSuffix = password;
-            }
-            var salt = $"mnemonic{saltSuffix}";
-            var saltBytes = Encoding.UTF8.GetBytes(salt);
-
-            var rfc2898DerivedBytes = new Rfc2898DeriveBytes(mnemonicBytes, saltBytes, 2048, HashAlgorithmName.SHA512);
-            var key = rfc2898DerivedBytes.GetBytes(64);
-            var hex = BitConverter
-                .ToString(key)
-                .Replace("-", "")
-                .ToLower();
-
-            return hex;
-        }
-
         public static Account CreateWallet(int strength = 12, Language language = Language.English, string password = "")
         {
             var mnemonic = new Mnemonic(Helper.GetWordlistByLanguage(language), Enum.Parse<WordCount>(strength.ToString()));
-
-            var seed = ConvertMnemonicToSeedHex(mnemonic, password);
+            var seed = mnemonic.DeriveSeed(password);
+            var seedHex = BitConverter
+                .ToString(seed)
+                .Replace("-", "")
+                .ToLower();
             var masterKeyPath = new KeyPath(BIP39WalletConstants.AElfPath);
-            var masterWallet = new ExtKey(seed).Derive(masterKeyPath);
+            var masterWallet = new ExtKey(seedHex).Derive(masterKeyPath);
             var wallet = masterWallet.Derive(new KeyPath(BIP39WalletConstants.PathSuffix)).Derive(0);
             var privateKey = wallet.PrivateKey;
             var newKey = new Key(privateKey.ToBytes(), -1, false);
@@ -49,7 +29,11 @@ namespace BIP39Wallet
         public static Account GetWalletByMnemonic(string mnemonic, string password = "")
         {
             var mnemonicValue = new Mnemonic(mnemonic, Wordlist.English);
-            var seedHex = ConvertMnemonicToSeedHex(mnemonicValue, password);
+            var seed = mnemonicValue.DeriveSeed(password);
+            var seedHex = BitConverter
+                .ToString(seed)
+                .Replace("-", "")
+                .ToLower();
             var masterKeyPath = new KeyPath(BIP39WalletConstants.AElfPath);
             var masterWallet = new ExtKey(seedHex).Derive(masterKeyPath);
             var wallet = masterWallet.Derive(new KeyPath(BIP39WalletConstants.PathSuffix)).Derive(0);
