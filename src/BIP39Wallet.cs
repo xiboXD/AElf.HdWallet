@@ -3,30 +3,12 @@ using System.Text;
 using AElf.Types;
 using System.Security.Cryptography;
 using System;
-using System.Diagnostics.CodeAnalysis;
-
 
 namespace BIP39Wallet
 {
-    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class Wallet
     {
-        public class BlockchainWallet
-        {
-            public string Address { get; private set; }
-            public string PrivateKey { get; private set; }
-            public string Mnemonic { get; private set; }
-            public string PublicKey { get; private set; }
-
-            public BlockchainWallet(string address, string privateKey, string mnemonic, string publicKey)
-            {
-                Address = address;
-                PrivateKey = privateKey;
-                Mnemonic = mnemonic;
-                PublicKey = publicKey;
-            }
-        }
-        public virtual string ConvertMnemonicToSeedHex(Mnemonic mnemonic, string password)
+        private static string ConvertMnemonicToSeedHex(Mnemonic mnemonic, string password)
         {
             var mnemonicBytes = Encoding.UTF8.GetBytes(mnemonic.ToString().Normalize(NormalizationForm.FormKD));
             var saltSuffix = string.Empty;
@@ -47,62 +29,49 @@ namespace BIP39Wallet
             return hex;
         }
 
-        public virtual BlockchainWallet CreateWallet(int strength, Language language, string password)
+        public static Account CreateWallet(int strength = 12, Language language = Language.English, string password = "")
         {
-            var mnemonic = new Mnemonic(Wordlist.English, WordCount.Twelve);
+            var mnemonic = new Mnemonic(Helper.GetWordlistByLanguage(language), Enum.Parse<WordCount>(strength.ToString()));
 
-            var seed = ConvertMnemonicToSeedHex(mnemonic, "");
-            var masterKeyPath = new KeyPath("m/44'/1616'");
+            var seed = ConvertMnemonicToSeedHex(mnemonic, password);
+            var masterKeyPath = new KeyPath(BIP39WalletConstants.AElfPath);
             var masterWallet = new ExtKey(seed).Derive(masterKeyPath);
-            var wallet = masterWallet.Derive(new KeyPath("0'/0")).Derive(0);
+            var wallet = masterWallet.Derive(new KeyPath(BIP39WalletConstants.PathSuffix)).Derive(0);
             var privateKey = wallet.PrivateKey;
             var newKey = new Key(privateKey.ToBytes(), -1, false);
             var publicKey = newKey.PubKey;
 
             // Act
             var address = Address.FromPublicKey(publicKey.ToBytes()).ToString().Trim('\"');
-            return new BlockchainWallet(address, privateKey.ToHex(), mnemonic.ToString(), publicKey.ToString());
+            return new Account(address, privateKey.ToHex(), mnemonic.ToString(), publicKey.ToString());
         }
 
-        public virtual BlockchainWallet GetWalletByMnemonic(string mnemonic, string password = "")
+        public static Account GetWalletByMnemonic(string mnemonic, string password = "")
         {
             var mnemonicValue = new Mnemonic(mnemonic, Wordlist.English);
             var seedHex = ConvertMnemonicToSeedHex(mnemonicValue, password);
-            var masterKeyPath = new KeyPath("m/44'/1616'");
+            var masterKeyPath = new KeyPath(BIP39WalletConstants.AElfPath);
             var masterWallet = new ExtKey(seedHex).Derive(masterKeyPath);
-            var wallet = masterWallet.Derive(new KeyPath("0'/0")).Derive(0);
+            var wallet = masterWallet.Derive(new KeyPath(BIP39WalletConstants.PathSuffix)).Derive(0);
             var privateKey = wallet.PrivateKey;
             var newKey = new Key(privateKey.ToBytes(), -1, false);
             var publicKey = newKey.PubKey;
 
             // Act
             var address = Address.FromPublicKey(publicKey.ToBytes()).ToString().Trim('\"');
-            return new BlockchainWallet(address, privateKey.ToHex(), mnemonic, publicKey.ToString());
-        }
-        
-        static byte[] StringToByteArray(string hexString)
-        {
-            int length = hexString.Length;
-            byte[] byteArray = new byte[length / 2];
-
-            for (int i = 0; i < length; i += 2)
-            {
-                byteArray[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
-            }
-
-            return byteArray;
+            return new Account(address, privateKey.ToHex(), mnemonic, publicKey.ToString());
         }
 
-        public virtual BlockchainWallet GetWalletByPrivateKey(string privateKey)
+        public static Account GetWalletByPrivateKey(string privateKey)
         {
-            var keybyte = StringToByteArray(privateKey);
-            Array.Resize(ref keybyte, 32);
-            var key = new Key(keybyte, -1, false);
+            var keyByte = Helper.StringToByteArray(privateKey);
+            Array.Resize(ref keyByte, 32);
+            var key = new Key(keyByte, -1, false);
             var publicKey = key.PubKey;
             var address =  Address.FromPublicKey(publicKey.ToBytes()).ToString().Trim('\"');
-            return new BlockchainWallet(address, privateKey, null!, publicKey.ToHex());
+            return new Account(address, privateKey, null!, publicKey.ToHex());
         }
-        public virtual byte[] Sign(byte[] privateKey, byte[] hash)
+        public static byte[] Sign(byte[] privateKey, byte[] hash)
         {
             var hash32 = new uint256(hash);
             Array.Resize(ref privateKey, 32);
