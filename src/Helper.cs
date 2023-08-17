@@ -7,7 +7,6 @@ namespace BIP39Wallet
     {
         public static Wordlist GetWordlistByLanguage(Language language)
         {
-            // 根据不同的语言返回对应的 Wordlist
             switch (language)
             {
                 case Language.English:
