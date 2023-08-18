@@ -12,7 +12,7 @@ namespace BIP39WalletUtils.Tests
         public void CreateWallet_test()
         {
             // ReSharper disable once RedundantArgumentDefaultValue
-            var accountInfo = new AElfWalletFactory().Generate();
+            var accountInfo = new AElfWalletFactory().Create();
             Assert.NotNull(accountInfo);
         }
 
@@ -21,7 +21,7 @@ namespace BIP39WalletUtils.Tests
         {
             // Arrange
             var mnemonic = "put draft unhappy diary arctic sponsor alien awesome adjust bubble maid brave";
-            var accountInfo = new AElfWalletFactory().Create(new Mnemonic(mnemonic)).Derive(0);
+            var accountInfo = new AElfWalletFactory().FromMnemonic(mnemonic).Derive(0);
             Assert.NotNull(accountInfo);
             Assert.Equal(
                 new PublicKey(
