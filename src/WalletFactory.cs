@@ -20,14 +20,14 @@ public class WalletFactory
     }
 
 
-    public HDKey Generate(string passphrase = "", Language language = Language.English,
+    public ExtendedKey Generate(string passphrase = "", Language language = Language.English,
         WordCount wordCount = WordCount.Twelve)
     {
         var mnemonic = new Mnemonic(GetWordlist(language), wordCount);
         return Create(mnemonic, passphrase);
     }
 
-    public HDKey Create(Mnemonic mnemonic, string passphrase = "")
+    public ExtendedKey Create(Mnemonic mnemonic, string passphrase = "")
     {
         var extKey = mnemonic.DeriveExtKey(passphrase);
         return extKey.Derive(KeyPath.Parse(MasterPath)).Wrap();

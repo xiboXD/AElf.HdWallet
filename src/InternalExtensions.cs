@@ -7,9 +7,9 @@ namespace BIP39Wallet
 {
     internal static class InternalExtensions
     {
-        public static HDKey Wrap(this ExtKey extKey)
+        public static ExtendedKey Wrap(this ExtKey extKey)
         {
-            return HDKey.From(extKey);
+            return ExtendedKey.From(extKey);
         }
 
         public static PrivateKey Wrap(this BitcoinKey bitcoinKey)
