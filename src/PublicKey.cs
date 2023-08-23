@@ -1,4 +1,5 @@
 using System;
+using AElf.Types;
 using BitcoinPubKey = NBitcoin.PubKey;
 using IPubKey = NBitcoin.IPubKey;
 
@@ -46,6 +47,11 @@ namespace BIP39Wallet
         public override string ToString()
         {
             return _bitcoinPubKey.ToString();
+        }
+
+        public string ToAddress()
+        {
+            return Address.FromPublicKey(_bitcoinPubKey.ToBytes()).ToString().Trim('\"');
         }
 
         public PublicKey Decompress()
