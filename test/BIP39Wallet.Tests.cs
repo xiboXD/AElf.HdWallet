@@ -28,6 +28,7 @@ namespace BIP39WalletUtils.Tests
                     "04c0f6abf0e3122f4a49646d67bacf85c80ad726ca781ccba572033a31162f22e55a4a106760cbf1306f26c25aea1e4bb71ee66cb3c5104245d6040cce64546cc7"),
                 accountInfo.PrivateKey.PublicKey.Decompress()
             );
+            Assert.Equal("2ihA5K7sSsA78gekyhuh7gcnX4JkGVqJmSGnf8Kj1hZefR4sX5", accountInfo.PrivateKey.PublicKey.Decompress().ToAddress());
         }
 
         [Fact]
@@ -41,6 +42,7 @@ namespace BIP39WalletUtils.Tests
                     "04c0f6abf0e3122f4a49646d67bacf85c80ad726ca781ccba572033a31162f22e55a4a106760cbf1306f26c25aea1e4bb71ee66cb3c5104245d6040cce64546cc7"),
                 accountInfo.PublicKey.Decompress()
             );
+            Assert.Equal("2ihA5K7sSsA78gekyhuh7gcnX4JkGVqJmSGnf8Kj1hZefR4sX5", accountInfo.PublicKey.Decompress().ToAddress());
         }
 
         [Fact]
