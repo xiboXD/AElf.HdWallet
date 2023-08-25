@@ -29,6 +29,11 @@ namespace BIP39Wallet
         {
             _bitcoinKey = bitcoinKey;
         }
+        
+        public string ToHex()
+        {
+            return _bitcoinKey.ToHex();
+        }
 
         public byte[] Sign(byte[] hash)
         {
