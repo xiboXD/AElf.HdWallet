@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using NBitcoin;
+using NBitcoin.DataEncoders;
 using Xunit;
 // ReSharper disable StringLiteralTypo
 
@@ -91,20 +92,11 @@ public class WalletTests
         const string privateKey = "03bd0cea9730bcfc8045248fd7f4841ea19315995c44801a3dfede0ca872f808";
         const string hash = "68656c6c6f20776f726c643939482801";
         const string signed =
-            "59EF1D3B2B853FCA1E33D07765DEBAAF38A81442CFE90822D4334E8FCE9889D80C99A0BE1858C1F26B4D99987EFF6003F33B7C3F32BBDB9CEEC68A1E8A4DB4B000";
-
-
+            "59ef1d3b2b853fca1e33d07765debaaf38a81442cfe90822d4334e8fce9889d80c99a0be1858c1f26b4d99987eff6003f33b7c3f32bbdb9ceec68a1e8a4db4b000";
         // Arrange
         var result = PrivateKey.Parse(privateKey).Sign(Encoding.UTF8.GetBytes(hash));
-        var hex = new StringBuilder(result.Length * 2);
-        foreach (var b in result)
-        {
-            hex.AppendFormat("{0:x2}", b);
-        }
-
-        var resultSting = hex.ToString();
-
+        var hexResult = new HexEncoder().EncodeData(result);
         // Assert
-        Assert.Equal(signed.ToLower(), resultSting);
+        Assert.Equal(signed, hexResult);
     }
 }
