@@ -8,7 +8,7 @@ namespace BIP39WalletUtils.Tests
 {
     public class WalletTests
     {
-        private const string Key = "04c0f6abf0e3122f4a49646d67bacf85c80ad726ca781ccba572033a31162f22e55a4a106760cbf1306f26c25aea1e4bb71ee66cb3c5104245d6040cce64546cc7";
+        private const string PubKey = "04c0f6abf0e3122f4a49646d67bacf85c80ad726ca781ccba572033a31162f22e55a4a106760cbf1306f26c25aea1e4bb71ee66cb3c5104245d6040cce64546cc7";
         [Fact]
         public void CreateWallet_test()
         {
@@ -25,7 +25,7 @@ namespace BIP39WalletUtils.Tests
         [InlineData(Language.Japanese, false)]
         [InlineData(Language.Spanish, false)]
         [InlineData(Language.Czech, false)]
-        [InlineData(Language.PortugueseBrazil, true)]
+        [InlineData(Language.PortugueseBrazil, false)]
         [InlineData(Language.Unknown, true)]
         public void CreateWallet_test_support_multi_language(Language language, bool isThrowException)
         {
@@ -49,7 +49,7 @@ namespace BIP39WalletUtils.Tests
             Assert.NotNull(accountInfo);
             Assert.Equal(
                 new PublicKey(
-                    Key),
+                    PubKey),
                 accountInfo.PrivateKey.PublicKey.Decompress()
             );
             Assert.Equal("2ihA5K7sSsA78gekyhuh7gcnX4JkGVqJmSGnf8Kj1hZefR4sX5", accountInfo.PrivateKey.PublicKey.Decompress().ToAddress());
@@ -62,7 +62,7 @@ namespace BIP39WalletUtils.Tests
             var accountInfo = PrivateKey.Parse(privateKey);
             var keyTest =
                 new PublicKey(
-                    Key);
+                    PubKey);
             Assert.NotNull(accountInfo);
             Assert.Equal(
                 keyTest,
@@ -74,7 +74,7 @@ namespace BIP39WalletUtils.Tests
 
             var keyHash = accountInfo.PublicKey.GetHashCode();
             Assert.Equal(1373039134, keyHash);
-            Assert.Equal(Key, accountInfo.PublicKey.ToString());
+            Assert.Equal(PubKey, accountInfo.PublicKey.ToString());
             Assert.Equal("2ihA5K7sSsA78gekyhuh7gcnX4JkGVqJmSGnf8Kj1hZefR4sX5", accountInfo.PublicKey.Decompress().ToAddress());
         }
 

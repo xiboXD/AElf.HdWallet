@@ -57,6 +57,7 @@ public class WalletFactory
             case Language.ChineseTraditional:
                 return Wordlist.ChineseTraditional;
             case Language.PortugueseBrazil:
+                return Wordlist.PortugueseBrazil;
             case Language.Unknown:
             default:
                 throw new ArgumentException("Unsupported language", nameof(language));
