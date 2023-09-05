@@ -1,9 +1,9 @@
-using System;
 using NBitcoin;
 using BitcoinKey = NBitcoin.Key;
 using BitcoinPubKey = NBitcoin.PubKey;
 
 namespace BIP39Wallet
+    // ReSharper disable once ArrangeNamespaceBody
 {
     internal static class InternalExtensions
     {

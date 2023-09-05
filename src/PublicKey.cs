@@ -2,6 +2,7 @@ using System;
 using AElf.Types;
 using BitcoinPubKey = NBitcoin.PubKey;
 using IPubKey = NBitcoin.IPubKey;
+// ReSharper disable ArrangeNamespaceBody
 
 namespace BIP39Wallet
 {

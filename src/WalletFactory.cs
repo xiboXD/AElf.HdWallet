@@ -12,11 +12,11 @@ public class AElfWalletFactory : WalletFactory
 
 public class WalletFactory
 {
-    public readonly string MasterPath;
+    private readonly string _masterPath;
 
-    public WalletFactory(string masterPath)
+    protected WalletFactory(string masterPath)
     {
-        MasterPath = masterPath;
+        _masterPath = masterPath;
     }
 
 
@@ -27,15 +27,16 @@ public class WalletFactory
         return FromMnemonic(mnemonic, passphrase);
     }
 
+    // ReSharper disable once UnusedParameter.Global
     public ExtendedKey FromMnemonic(string mnemonic, string passphrase = "")
     {
         return FromMnemonic(new Mnemonic(mnemonic));
     }
 
-    public ExtendedKey FromMnemonic(Mnemonic mnemonic, string passphrase = "")
+    private ExtendedKey FromMnemonic(Mnemonic mnemonic, string passphrase = "")
     {
         var extKey = mnemonic.DeriveExtKey(passphrase);
-        return extKey.Derive(KeyPath.Parse(MasterPath)).Wrap();
+        return extKey.Derive(KeyPath.Parse(_masterPath)).Wrap();
     }
 
     private static Wordlist GetWordlist(Language language)

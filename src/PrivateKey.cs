@@ -4,6 +4,7 @@ using NBitcoin.DataEncoders;
 using BitcoinKey = NBitcoin.Key;
 
 namespace BIP39Wallet
+    // ReSharper disable once ArrangeNamespaceBody
 {
     public class PrivateKey : IDisposable
     {
@@ -23,16 +24,11 @@ namespace BIP39Wallet
             return new PrivateKey(bitcoinKey);
         }
 
-        private bool _disposed = false;
+        private bool _disposed;
 
         private PrivateKey(BitcoinKey bitcoinKey)
         {
             _bitcoinKey = bitcoinKey;
-        }
-        
-        public string ToHex()
-        {
-            return _bitcoinKey.ToHex();
         }
 
         public byte[] Sign(byte[] hash)
