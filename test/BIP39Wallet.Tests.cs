@@ -8,6 +8,7 @@ namespace BIP39WalletUtils.Tests
 {
     public class WalletTests
     {
+        private const string Key = "04c0f6abf0e3122f4a49646d67bacf85c80ad726ca781ccba572033a31162f22e55a4a106760cbf1306f26c25aea1e4bb71ee66cb3c5104245d6040cce64546cc7";
         [Fact]
         public void CreateWallet_test()
         {
@@ -16,33 +17,27 @@ namespace BIP39WalletUtils.Tests
             accountInfo.PrivateKey.Dispose();
             Assert.NotNull(accountInfo);
         }
-        [Fact]
-        public void CreateWallet_test_support_multi_language()
+        [Theory]
+        [InlineData(Language.ChineseSimplified, false)]
+        [InlineData(Language.ChineseTraditional, false)]
+        [InlineData(Language.English, false)]
+        [InlineData(Language.French, false)]
+        [InlineData(Language.Japanese, false)]
+        [InlineData(Language.Spanish, false)]
+        [InlineData(Language.Czech, false)]
+        [InlineData(Language.PortugueseBrazil, true)]
+        [InlineData(Language.Unknown, true)]
+        public void CreateWallet_test_support_multi_language(Language language, bool isThrowException)
         {
-            var accountInfo1 = new AElfWalletFactory().Create(language: Language.ChineseSimplified);
-            Assert.NotNull(accountInfo1);
-            
-            var accountInfo2 = new AElfWalletFactory().Create(language: Language.ChineseTraditional);
-            Assert.NotNull(accountInfo2);
-            
-            var accountInfo3 = new AElfWalletFactory().Create(language: Language.English);
-            Assert.NotNull(accountInfo3);
-            
-            var accountInfo4 = new AElfWalletFactory().Create(language: Language.French);
-            Assert.NotNull(accountInfo4);
-            
-            var accountInfo5 = new AElfWalletFactory().Create(language: Language.Japanese);
-            Assert.NotNull(accountInfo5);
-            
-            var accountInfo6 = new AElfWalletFactory().Create(language: Language.Spanish);
-            Assert.NotNull(accountInfo6);
-            
-            var accountInfo7 = new AElfWalletFactory().Create(language: Language.Czech);
-            Assert.NotNull(accountInfo7);
-            
-            Assert.Throws<ArgumentException>(() => new AElfWalletFactory().Create(language: Language.PortugueseBrazil));            
-            // ReSharper disable once RedundantArgumentDefaultValue
-            Assert.Throws<ArgumentException>(() => new AElfWalletFactory().Create(language: Language.Unknown));
+            if (!isThrowException)
+            {
+                var accountInfo = new AElfWalletFactory().Create(language: language);
+                Assert.NotNull(accountInfo);
+            }
+            else
+            {
+                Assert.Throws<ArgumentException>(() => new AElfWalletFactory().Create(language: language));            
+            }
         }
 
         [Fact]
@@ -54,7 +49,7 @@ namespace BIP39WalletUtils.Tests
             Assert.NotNull(accountInfo);
             Assert.Equal(
                 new PublicKey(
-                    "04c0f6abf0e3122f4a49646d67bacf85c80ad726ca781ccba572033a31162f22e55a4a106760cbf1306f26c25aea1e4bb71ee66cb3c5104245d6040cce64546cc7"),
+                    Key),
                 accountInfo.PrivateKey.PublicKey.Decompress()
             );
             Assert.Equal("2ihA5K7sSsA78gekyhuh7gcnX4JkGVqJmSGnf8Kj1hZefR4sX5", accountInfo.PrivateKey.PublicKey.Decompress().ToAddress());
@@ -67,7 +62,7 @@ namespace BIP39WalletUtils.Tests
             var accountInfo = PrivateKey.Parse(privateKey);
             var keyTest =
                 new PublicKey(
-                    "04c0f6abf0e3122f4a49646d67bacf85c80ad726ca781ccba572033a31162f22e55a4a106760cbf1306f26c25aea1e4bb71ee66cb3c5104245d6040cce64546cc7");
+                    Key);
             Assert.NotNull(accountInfo);
             Assert.Equal(
                 keyTest,
@@ -79,7 +74,7 @@ namespace BIP39WalletUtils.Tests
 
             var keyHash = accountInfo.PublicKey.GetHashCode();
             Assert.Equal(1373039134, keyHash);
-            Assert.Equal("04c0f6abf0e3122f4a49646d67bacf85c80ad726ca781ccba572033a31162f22e55a4a106760cbf1306f26c25aea1e4bb71ee66cb3c5104245d6040cce64546cc7", accountInfo.PublicKey.ToString());
+            Assert.Equal(Key, accountInfo.PublicKey.ToString());
             Assert.Equal("2ihA5K7sSsA78gekyhuh7gcnX4JkGVqJmSGnf8Kj1hZefR4sX5", accountInfo.PublicKey.Decompress().ToAddress());
         }
 
