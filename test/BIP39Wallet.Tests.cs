@@ -46,6 +46,7 @@ public class WalletTests
     {
         // Arrange
         const string mnemonic = "put draft unhappy diary arctic sponsor alien awesome adjust bubble maid brave";
+        const string address = "2ihA5K7sSsA78gekyhuh7gcnX4JkGVqJmSGnf8Kj1hZefR4sX5";
         var accountInfo = new AElfWalletFactory().FromMnemonic(mnemonic, "").Derive(0);
         Assert.NotNull(accountInfo);
         Assert.Equal(
@@ -53,7 +54,7 @@ public class WalletTests
                 PubKey),
             accountInfo.PrivateKey.PublicKey.Decompress()
         );
-        Assert.Equal("2ihA5K7sSsA78gekyhuh7gcnX4JkGVqJmSGnf8Kj1hZefR4sX5", accountInfo.PrivateKey.PublicKey.Decompress().ToAddress());
+        Assert.Equal(address, accountInfo.PrivateKey.PublicKey.Decompress().ToAddress());
     }
         
     [Fact]
@@ -69,6 +70,7 @@ public class WalletTests
     public void GetWalletByPrivateKey_ReturnsValidAccountInfo()
     {
         const string privateKey = "f0c3bf2cfc4f50405afb2f1236d653cf0581f4caedf4f1e0b49480c840659ba9";
+        const string address = "2ihA5K7sSsA78gekyhuh7gcnX4JkGVqJmSGnf8Kj1hZefR4sX5";
         var accountInfo = PrivateKey.Parse(privateKey);
         var keyTest =
             new PublicKey(
@@ -79,7 +81,7 @@ public class WalletTests
             accountInfo.PublicKey.Decompress()
         );
         Assert.Equal(PubKey, accountInfo.PublicKey.ToString());
-        Assert.Equal("2ihA5K7sSsA78gekyhuh7gcnX4JkGVqJmSGnf8Kj1hZefR4sX5", accountInfo.PublicKey.Decompress().ToAddress());
+        Assert.Equal(address, accountInfo.PublicKey.Decompress().ToAddress());
     }
 
     [Fact]
