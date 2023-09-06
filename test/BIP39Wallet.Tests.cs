@@ -28,9 +28,9 @@ public class WalletTests
     [InlineData(Language.Czech, false)]
     [InlineData(Language.PortugueseBrazil, false)]
     [InlineData(Language.Unknown, true)]
-    public void CreateWallet_test_support_multi_language(Language language, bool isThrowException)
+    public void CreateWallet_test_support_multi_language(Language language, bool isThrowingException)
     {
-        if (!isThrowException)
+        if (!isThrowingException)
         {
             var accountInfo = new AElfWalletFactory().Create(language: language);
             Assert.NotNull(accountInfo);
@@ -46,7 +46,7 @@ public class WalletTests
     {
         // Arrange
         const string mnemonic = "put draft unhappy diary arctic sponsor alien awesome adjust bubble maid brave";
-        var accountInfo = new AElfWalletFactory().FromMnemonic(mnemonic).Derive(0);
+        var accountInfo = new AElfWalletFactory().FromMnemonic(mnemonic, "").Derive(0);
         Assert.NotNull(accountInfo);
         Assert.Equal(
             new PublicKey(

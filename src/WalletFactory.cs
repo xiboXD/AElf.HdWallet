@@ -26,14 +26,13 @@ public class WalletFactory
         var mnemonic = new Mnemonic(GetWordlist(language), wordCount);
         return FromMnemonic(mnemonic, passphrase);
     }
-
-    // ReSharper disable once UnusedParameter.Global
-    public ExtendedKey FromMnemonic(string mnemonic, string passphrase = "")
+    
+    public ExtendedKey FromMnemonic(string mnemonic, string passphrase)
     {
-        return FromMnemonic(new Mnemonic(mnemonic));
+        return FromMnemonic(new Mnemonic(mnemonic), passphrase);
     }
 
-    private ExtendedKey FromMnemonic(Mnemonic mnemonic, string passphrase = "")
+    private ExtendedKey FromMnemonic(Mnemonic mnemonic, string passphrase)
     {
         var extKey = mnemonic.DeriveExtKey(passphrase);
         return extKey.Derive(KeyPath.Parse(_masterPath)).Wrap();
