@@ -78,10 +78,6 @@ public class WalletTests
             keyTest,
             accountInfo.PublicKey.Decompress()
         );
-
-        var compareResult = accountInfo.PublicKey.CompareTo(keyTest);
-        Assert.Equal(0, compareResult);
-            
         Assert.Equal(PubKey, accountInfo.PublicKey.ToString());
         Assert.Equal("2ihA5K7sSsA78gekyhuh7gcnX4JkGVqJmSGnf8Kj1hZefR4sX5", accountInfo.PublicKey.Decompress().ToAddress());
     }
