@@ -5,7 +5,7 @@ using NBitcoin.DataEncoders;
 using Xunit;
 // ReSharper disable StringLiteralTypo
 
-namespace BIP39Wallet.Tests;
+namespace AElfHDWallet.Tests;
 
 public class WalletTests
 {

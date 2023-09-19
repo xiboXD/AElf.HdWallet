@@ -3,7 +3,7 @@ using AElf.Types;
 using BitcoinPubKey = NBitcoin.PubKey;
 using IPubKey = NBitcoin.IPubKey;
 
-namespace BIP39Wallet
+namespace AElfHDWallet
     // ReSharper disable once ArrangeNamespaceBody
 {
     public class PublicKey : IComparable<PublicKey>, IEquatable<PublicKey>, IPubKey
