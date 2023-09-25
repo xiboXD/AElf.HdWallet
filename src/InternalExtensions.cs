@@ -2,7 +2,7 @@ using NBitcoin;
 using BitcoinKey = NBitcoin.Key;
 using BitcoinPubKey = NBitcoin.PubKey;
 
-namespace AElfHDWallet
+namespace AElf.HdWallet
     // ReSharper disable once ArrangeNamespaceBody
 {
     internal static class InternalExtensions

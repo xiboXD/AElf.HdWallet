@@ -1,7 +1,7 @@
 using System;
 using NBitcoin;
 
-namespace AElfHDWallet;
+namespace AElf.HdWallet;
 
 public class AElfWalletFactory : WalletFactory
 {

@@ -4,7 +4,7 @@
         <OutputType>Library</OutputType>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
-        <RootNamespace>AElfHDWallet</RootNamespace>
+        <RootNamespace>AElf.HdWallet</RootNamespace>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="NBitcoin" Version="6.0.18" />

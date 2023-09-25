@@ -3,7 +3,7 @@ using NBitcoin;
 using NBitcoin.DataEncoders;
 using BitcoinKey = NBitcoin.Key;
 
-namespace AElfHDWallet
+namespace AElf.HdWallet
     // ReSharper disable once ArrangeNamespaceBody
 {
     public class PrivateKey : IDisposable

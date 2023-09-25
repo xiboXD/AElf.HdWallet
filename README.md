@@ -1,7 +1,7 @@
-# BIP39 wallet for AElf unity SDK
+# AElf.HdWallet
 ## Introduction
-This is a BIP39 wallet project for AElf unity SDK. It can generate mnemonic words and private and public key, and can also import mnemonic words to get private key. It can also generate address from public key.
-It can be used to not only create wallet but also can be used to restore wallet from mnemonic words or private key.
+This project uses BIP32 and BIP39 to generate AElf crypto wallet. It can generate mnemonic words, private-public keypair and wallet address, and can also import mnemonic words to get the associated keypair and address.
+It can be used to not only create a wallet but also can be used to restore a wallet from mnemonic words or a private key.
 ## Usage
 ### Create wallet
 ```c#

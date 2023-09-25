@@ -2,10 +2,10 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <RestoreSources>http://192.168.66.111:8081/repository/nuget-group/index.json</RestoreSources>
-        <RootNamespace>AElfHDWallet.Tests</RootNamespace>
+        <RootNamespace>AElf.HdWallet.Tests</RootNamespace>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\src\AElfHDWallet.csproj" />
+        <ProjectReference Include="..\src\AElf.HdWallet.csproj" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
         <PackageReference Include="xunit" Version="2.4.1" />
         <PackageReference Include="xunit.runner.console" Version="2.4.1" />

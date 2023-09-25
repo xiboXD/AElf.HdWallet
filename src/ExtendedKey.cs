@@ -1,6 +1,6 @@
 using NBitcoin;
 
-namespace AElfHDWallet;
+namespace AElf.HdWallet;
 
 public class ExtendedKey
 {
