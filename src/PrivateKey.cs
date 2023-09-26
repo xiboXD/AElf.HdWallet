@@ -39,6 +39,13 @@ namespace BIP39Wallet
         {
             var hash32 = new uint256(hash);
             var signature = _bitcoinKey.SignCompact(hash32, false);
+            if (_bitcoinKey.IsCompressed)
+            {
+                var keyByte = _bitcoinKey.ToBytes();
+                Array.Resize(ref keyByte, 32);
+                var bitcoinKey = new BitcoinKey(keyByte, -1, false);
+                signature = bitcoinKey.SignCompact(hash32, false);
+            }
 
             var formattedSignature = new byte[65];
             Array.Copy(signature[1..], 0, formattedSignature, 0, 64);
