@@ -6,24 +6,22 @@ It can be used to not only create a wallet but also can be used to restore a wal
 ### Create wallet
 ```c#
 var accountInfo = new AElfWalletFactory().Create();
-var privateKey = accountInfo.PrivateKey.Dispose();
 var publicKey = accountInfo.PrivateKey.PublicKey.Decompress();
-var address = accountInfo.PublicKey.Decompress().ToAddress();
+var address = accountInfo.PublicKey.ToAddress();
 ```
 ### Restore wallet from mnemonic words
 ```c#
 const string mnemonic = "put draft unhappy diary arctic sponsor alien awesome adjust bubble maid brave";
 var accountInfo = new AElfWalletFactory().FromMnemonic(mnemonic, "").Derive(0);
-var privateKey = accountInfo.PrivateKey.Dispose();
 var publicKey = accountInfo.PrivateKey.PublicKey.Decompress();
-var address = accountInfo.PublicKey.Decompress().ToAddress();
+var address = accountInfo.PublicKey.ToAddress();
 ```
 ### Restore wallet from private key
 ```c#
 const string privateKey = "f0c3bf2cfc4f50405afb2f1236d653cf0581f4caedf4f1e0b49480c840659ba9";
 var accountInfo = PrivateKey.Parse(privateKey);
 var publicKey = accountInfo.PrivateKey.PublicKey.Decompress();
-var address = accountInfo.PublicKey.Decompress().ToAddress();
+var address = accountInfo.PublicKey.ToAddress();
 ```
 ## Test
 You can easily run unit tests on BIP39 wallet. Navigate to the test folder and run:

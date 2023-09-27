@@ -52,7 +52,7 @@ namespace AElf.HdWallet
 
         public string ToAddress()
         {
-            return Address.FromPublicKey(_bitcoinPubKey.ToBytes()).ToString().Trim('\"');
+            return Address.FromPublicKey(_bitcoinPubKey.Decompress().ToBytes()).ToString().Trim('\"');
         }
 
         public PublicKey Decompress()

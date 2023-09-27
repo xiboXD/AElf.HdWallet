@@ -54,7 +54,7 @@ public class WalletTests
                 PubKey),
             accountInfo.PrivateKey.PublicKey.Decompress()
         );
-        Assert.Equal(address, accountInfo.PrivateKey.PublicKey.Decompress().ToAddress());
+        Assert.Equal(address, accountInfo.PrivateKey.PublicKey.ToAddress());
     }
         
     [Fact]
@@ -81,7 +81,7 @@ public class WalletTests
             accountInfo.PublicKey.Decompress()
         );
         Assert.Equal(PubKey, accountInfo.PublicKey.ToString());
-        Assert.Equal(address, accountInfo.PublicKey.Decompress().ToAddress());
+        Assert.Equal(address, accountInfo.PublicKey.ToAddress());
     }
 
     [Fact]
