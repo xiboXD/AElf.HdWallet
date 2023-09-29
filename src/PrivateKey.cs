@@ -18,7 +18,7 @@ namespace BIP39Wallet
                 {
                     var keyBytes = _bitcoinKey.ToBytes();
                     Array.Resize(ref keyBytes, 32);
-                    return _bitcoinKey = new BitcoinKey(keyBytes, -1, false);
+                    _bitcoinKey = new BitcoinKey(keyBytes, -1, false);
                 }
                 return _bitcoinKey;
             }
