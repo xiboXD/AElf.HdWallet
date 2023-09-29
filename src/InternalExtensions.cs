@@ -1,4 +1,3 @@
-using System;
 using NBitcoin;
 using BitcoinKey = NBitcoin.Key;
 using BitcoinPubKey = NBitcoin.PubKey;
