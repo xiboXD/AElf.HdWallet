@@ -7,7 +7,7 @@ namespace BIP39Wallet
 {
     public class PrivateKey : IDisposable
     {
-        private readonly BitcoinKey _bitcoinKey;
+        private BitcoinKey _bitcoinKey;
         public PublicKey PublicKey => _bitcoinKey.PubKey.Wrap();
 
         private BitcoinKey NormalizedBitcoinKey
@@ -18,7 +18,7 @@ namespace BIP39Wallet
                 {
                     var keyBytes = _bitcoinKey.ToBytes();
                     Array.Resize(ref keyBytes, 32);
-                    return new BitcoinKey(keyBytes, -1, false);
+                    return _bitcoinKey = new BitcoinKey(keyBytes, -1, false);
                 }
                 return _bitcoinKey;
             }

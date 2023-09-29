@@ -107,18 +107,25 @@ namespace BIP39WalletUtils.Tests
         }
 
         [Fact]
-        public void Sign_WithCompressedKeyAndDecompressedKey()
+        public void Sign_WithParseCompressedKeyAndDecompressedKey()
         {
             const string compressedPrivateKey = "f0c3bf2cfc4f50405afb2f1236d653cf0581f4caedf4f1e0b49480c840659ba901";
             const string decompressedPrivateKey = "f0c3bf2cfc4f50405afb2f1236d653cf0581f4caedf4f1e0b49480c840659ba9";
-            const string mnemonic = "put draft unhappy diary arctic sponsor alien awesome adjust bubble maid brave";
             const string hash = "68656c6c6f20776f726c643939482801";
             var compressedResult = PrivateKey.Parse(compressedPrivateKey).Sign(Encoding.UTF8.GetBytes(hash));
             var decompressedResult = PrivateKey.Parse(decompressedPrivateKey).Sign(Encoding.UTF8.GetBytes(hash));
-            var mnemonicResult = new AElfWalletFactory().FromMnemonic(mnemonic).Derive(0).PrivateKey.Sign(Encoding.UTF8.GetBytes(hash));
             Assert.Equal(compressedResult, decompressedResult);
+        }
+
+        [Fact]
+        public void Sign_WithCompressedKeyAndDecompressedKey()
+        {
+            const string decompressedPrivateKey = "f0c3bf2cfc4f50405afb2f1236d653cf0581f4caedf4f1e0b49480c840659ba9";
+            const string mnemonic = "put draft unhappy diary arctic sponsor alien awesome adjust bubble maid brave";
+            const string hash = "68656c6c6f20776f726c643939482801";
+            var decompressedResult = PrivateKey.Parse(decompressedPrivateKey).Sign(Encoding.UTF8.GetBytes(hash));
+            var mnemonicResult = new AElfWalletFactory().FromMnemonic(mnemonic).Derive(0).PrivateKey.Sign(Encoding.UTF8.GetBytes(hash));
             Assert.Equal(decompressedResult, mnemonicResult);
-            
         }
     }
 }
