@@ -109,7 +109,7 @@ namespace BIP39WalletUtils.Tests
         }
 
         [Fact]
-        public void Mnemonic_GenerateCompressedKey()
+        public void CompressedKeyToSign()
         {
             const string mnemonic = "put draft unhappy diary arctic sponsor alien awesome adjust bubble maid brave";
             const string hash = "68656c6c6f20776f726c643939482801";
@@ -118,6 +118,26 @@ namespace BIP39WalletUtils.Tests
             var recovered = CryptoHelper.RecoverPublicKey(signature, Encoding.UTF8.GetBytes(hash), out var publicKey);
             Assert.True(recovered);
             Assert.Equal(privateKey.PublicKey.Decompress().ToString(), publicKey.ToHex());
+        }
+        [Fact]
+        public void DecompressedKeyToSign()
+        {
+            const string decompressedPrivateKey = "f0c3bf2cfc4f50405afb2f1236d653cf0581f4caedf4f1e0b49480c840659ba9";
+            const string hash = "68656c6c6f20776f726c643939482801";
+            var privateKey = PrivateKey.Parse(decompressedPrivateKey);
+            var signature =privateKey.Sign(Encoding.UTF8.GetBytes(hash));
+            var recovered = CryptoHelper.RecoverPublicKey(signature, Encoding.UTF8.GetBytes(hash), out var publicKey);
+            Assert.True(recovered);
+            Assert.Equal(privateKey.PublicKey.Decompress().ToString(), publicKey.ToHex());
+        }
+        [Fact]
+        public void CompressedKey_ConvertToDecompressed()
+        {
+            const string mnemonic = "put draft unhappy diary arctic sponsor alien awesome adjust bubble maid brave";
+            const string decompressedPrivateKey = "f0c3bf2cfc4f50405afb2f1236d653cf0581f4caedf4f1e0b49480c840659ba9";
+            var accountInfo = new AElfWalletFactory().FromMnemonic(mnemonic).Derive(0);
+            var normalizedKey = accountInfo.PrivateKey.NormalizedBitcoinKey;
+            Assert.Equal(decompressedPrivateKey, normalizedKey.ToHex());
         }
     }
 }

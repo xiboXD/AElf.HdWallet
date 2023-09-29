@@ -10,7 +10,7 @@ namespace BIP39Wallet
         private BitcoinKey _bitcoinKey;
         public PublicKey PublicKey => _bitcoinKey.PubKey.Wrap();
 
-        private BitcoinKey NormalizedBitcoinKey
+        public BitcoinKey NormalizedBitcoinKey
         {
             get
             {
