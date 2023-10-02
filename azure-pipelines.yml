@@ -8,6 +8,10 @@ jobs:
   variables:
     CI_TEST: true
   steps:
+  - task: RunLinter@0
+    displayName: RunLinter
+  - script: bash check.sh
+    displayName: 'Run Linter'
   - task: UseDotNet@2
     displayName: 'Install .NET Core SDK'
     inputs:
