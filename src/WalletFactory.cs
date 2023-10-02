@@ -26,7 +26,7 @@ public class WalletFactory
         var mnemonic = new Mnemonic(GetWordlist(language), wordCount);
         return FromMnemonic(mnemonic, passphrase);
     }
-    
+
     public ExtendedKey FromMnemonic(string mnemonic, string passphrase)
     {
         return FromMnemonic(new Mnemonic(mnemonic), passphrase);

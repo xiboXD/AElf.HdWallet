@@ -8,8 +8,21 @@ namespace AElf.HdWallet
 {
     public class PrivateKey : IDisposable
     {
-        private readonly BitcoinKey _bitcoinKey;
+        private BitcoinKey _bitcoinKey;
         public PublicKey PublicKey => _bitcoinKey.PubKey.Wrap();
+
+        public BitcoinKey NormalizedBitcoinKey
+        {
+            get
+            {
+                if (!_bitcoinKey.IsCompressed) return _bitcoinKey;
+                var keyBytes = _bitcoinKey.ToBytes();
+                Array.Resize(ref keyBytes, 32);
+                _bitcoinKey = new BitcoinKey(keyBytes, -1, false);
+
+                return _bitcoinKey;
+            }
+        }
 
         public static PrivateKey Parse(string privateKey)
         {
@@ -34,7 +47,7 @@ namespace AElf.HdWallet
         public byte[] Sign(byte[] hash)
         {
             var hash32 = new uint256(hash);
-            var signature = _bitcoinKey.SignCompact(hash32, false);
+            var signature = NormalizedBitcoinKey.SignCompact(hash32, false);
 
             var formattedSignature = new byte[65];
             Array.Copy(signature[1..], 0, formattedSignature, 0, 64);
