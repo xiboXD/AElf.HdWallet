@@ -3,7 +3,8 @@ using AElf.Types;
 using BitcoinPubKey = NBitcoin.PubKey;
 using IPubKey = NBitcoin.IPubKey;
 
-namespace BIP39Wallet
+namespace AElf.HdWallet
+    // ReSharper disable once ArrangeNamespaceBody
 {
     public class PublicKey : IComparable<PublicKey>, IEquatable<PublicKey>, IPubKey
     {
@@ -51,7 +52,7 @@ namespace BIP39Wallet
 
         public string ToAddress()
         {
-            return Address.FromPublicKey(_bitcoinPubKey.ToBytes()).ToString().Trim('\"');
+            return Address.FromPublicKey(_bitcoinPubKey.Decompress().ToBytes()).ToString().Trim('\"');
         }
 
         public PublicKey Decompress()

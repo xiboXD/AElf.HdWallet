@@ -3,12 +3,26 @@ using NBitcoin;
 using NBitcoin.DataEncoders;
 using BitcoinKey = NBitcoin.Key;
 
-namespace BIP39Wallet
+namespace AElf.HdWallet
+    // ReSharper disable once ArrangeNamespaceBody
 {
     public class PrivateKey : IDisposable
     {
-        private readonly BitcoinKey _bitcoinKey;
+        private BitcoinKey _bitcoinKey;
         public PublicKey PublicKey => _bitcoinKey.PubKey.Wrap();
+
+        public BitcoinKey NormalizedBitcoinKey
+        {
+            get
+            {
+                if (!_bitcoinKey.IsCompressed) return _bitcoinKey;
+                var keyBytes = _bitcoinKey.ToBytes();
+                Array.Resize(ref keyBytes, 32);
+                _bitcoinKey = new BitcoinKey(keyBytes, -1, false);
+
+                return _bitcoinKey;
+            }
+        }
 
         public static PrivateKey Parse(string privateKey)
         {
@@ -23,22 +37,17 @@ namespace BIP39Wallet
             return new PrivateKey(bitcoinKey);
         }
 
-        private bool _disposed = false;
+        private bool _disposed;
 
         private PrivateKey(BitcoinKey bitcoinKey)
         {
             _bitcoinKey = bitcoinKey;
         }
-        
-        public string ToHex()
-        {
-            return _bitcoinKey.ToHex();
-        }
 
         public byte[] Sign(byte[] hash)
         {
             var hash32 = new uint256(hash);
-            var signature = _bitcoinKey.SignCompact(hash32, false);
+            var signature = NormalizedBitcoinKey.SignCompact(hash32, false);
 
             var formattedSignature = new byte[65];
             Array.Copy(signature[1..], 0, formattedSignature, 0, 64);

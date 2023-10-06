@@ -4,9 +4,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{01BDC765-54F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{44DF9718-3C75-454D-B0FC-DE1299D0BD4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BIP39Wallet", "src\BIP39Wallet.csproj", "{9EEB587F-E566-4DB7-8640-D9106F55505B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AElf.HdWallet", "src\AElf.HdWallet.csproj", "{9EEB587F-E566-4DB7-8640-D9106F55505B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BIP39Wallet.Tests", "test\BIP39Wallet.Tests.csproj", "{6059DE1A-6317-44B0-9748-F3F3DDD8D9E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AElf.HdWallet.Tests", "test\AElf.HdWallet.Tests.csproj", "{6059DE1A-6317-44B0-9748-F3F3DDD8D9E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <RootNamespace>AElf.HdWallet.Tests</RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\src\AElf.HdWallet.csproj"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3"/>
+        <PackageReference Include="xunit" Version="2.4.1"/>
+        <PackageReference Include="xunit.runner.console" Version="2.4.1"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1"/>
+        <PackageReference Include="NBitcoin" Version="6.0.18"/>
+        <PackageReference Include="AElf.Types" Version="1.6.0-beta.1"/>
+        <PackageReference Include="AElf.Cryptography" Version="1.6.0-beta.1"/>
+    </ItemGroup>
+</Project>
