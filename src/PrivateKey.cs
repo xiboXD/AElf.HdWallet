@@ -57,6 +57,11 @@ namespace AElf.HdWallet
 
             return formattedSignature;
         }
+        
+        public string ToHex()
+        {
+            return _bitcoinKey.ToHex();
+        }
 
         public void Dispose()
         {
