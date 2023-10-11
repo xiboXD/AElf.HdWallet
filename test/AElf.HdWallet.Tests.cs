@@ -133,7 +133,7 @@ public class WalletTests
         const string mnemonic = "put draft unhappy diary arctic sponsor alien awesome adjust bubble maid brave";
         const string decompressedPrivateKey = "f0c3bf2cfc4f50405afb2f1236d653cf0581f4caedf4f1e0b49480c840659ba9";
         var accountInfo = new AElfWalletFactory().FromMnemonic(mnemonic, "").Derive(0);
-        var normalizedKey = accountInfo.PrivateKey.NormalizedBitcoinKey;
-        Assert.Equal(decompressedPrivateKey, normalizedKey.ToHex());
+        var normalizedKey = accountInfo.PrivateKey.ToHex();
+        Assert.Equal(decompressedPrivateKey, normalizedKey);
     }
 }

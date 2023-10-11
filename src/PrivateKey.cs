@@ -11,7 +11,7 @@ namespace AElf.HdWallet
         private BitcoinKey _bitcoinKey;
         public PublicKey PublicKey => _bitcoinKey.PubKey.Wrap();
 
-        public BitcoinKey NormalizedBitcoinKey
+        private BitcoinKey NormalizedBitcoinKey
         {
             get
             {
@@ -56,6 +56,11 @@ namespace AElf.HdWallet
             formattedSignature[64] = recoverId; //last byte holds the recoverId
 
             return formattedSignature;
+        }
+        
+        public string ToHex()
+        {
+            return Encoders.Hex.EncodeData(NormalizedBitcoinKey.ToBytes());
         }
 
         public void Dispose()
