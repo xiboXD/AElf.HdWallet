@@ -60,7 +60,7 @@ namespace AElf.HdWallet
         
         public string ToHex()
         {
-            return Encoders.Hex.EncodeData(NormalizedBitcoinKey.ToBytes());
+            return NormalizedBitcoinKey.ToHex();
         }
 
         public void Dispose()
